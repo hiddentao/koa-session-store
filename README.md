@@ -5,10 +5,13 @@ Based on [koa-session](https://github.com/koajs/session).
 
 ## Installation
 
+```
   npm install koa-session-store
+```
 
 ## Usage
 
+```
   var session = require('koa-session-store');
   var koa = require('koa');
 
@@ -29,9 +32,11 @@ Based on [koa-session](https://github.com/koajs/session).
 
   app.listen(3000);
   console.log('listening on port 3000');
+```
 
 The following configuration options are available:
 
+```
   app.use(session({
     name: 'mysite'    // cookie name
     store: <object instance>   // the session data storage layer - see below
@@ -39,12 +44,15 @@ The following configuration options are available:
       // cookie configuration options - see below
     }
   }));
+```
 
 The default cookie configuration options are set to:
 
+```
   signed: true      // cookie is signed using KeyGrip
   httpOnly: true    // cookie is not accessible via client-side JS
   overwrite: true   // overwrite existing cookie datawhen setting cookie
+```
 
 For a full list of options see [the cookies module](https://github.com/jed/cookies#cookiesset-name--value---options--).
 
@@ -56,16 +64,16 @@ session data will be stored in the cookie itself.
 If you wish to store session data elsewhere (e.g. in Mongo, Redis, etc.) then you must set this to an object which
 provides the following API:
 
- * `load(sid)` - load session data for given session id
+ * **load(sid)** - load session data for given session id
    * `sid` - _{String}_ session identifier.
    * returns a Promise, Thunk or generator which resolves to a JSON string of the session object data.
 
- * `save(sid, data)` - save session data for given session id
+ * **save(sid, data)** - save session data for given session id
    * `sid` - _{String}_ session identifier.
    * `data` - _{String} session data converted to JSON string.
    * returns a Promise, Thunk or generator which resolves once data is saved.
 
- * `remove(sid)` - remove session data for given session id
+ * **remove(sid)** - remove session data for given session id
    * `sid` - _{String}_ session identifier.
    * returns a Promise, Thunk or generator which resolves once removal is complete.
 
