@@ -1,5 +1,7 @@
 # koa-session-store
 
+[![Build Status](https://secure.travis-ci.org/hiddentao/koa-session-store.png)](http://travis-ci.org/hiddentao/koa-session-store) [![NPM module](https://badge.fury.io/js/koa-session-store.png)](https://npmjs.org/package/koa-session-store)
+
 Session middleware for [Koa](https://github.com/koajs/koa) with a pluggable storage layer (for use with Mongo, Redis, etc.).
 Based on [koa-session](https://github.com/koajs/session).
 
