@@ -4,7 +4,7 @@
   "description": "Session middleware for Koa with a pluggable storage layer (for Mongo, etc.)",
   "main": "index.js",
   "scripts": {
-    "test": "node --harmony `which gulp`"
+    "test": "NODE_ENV=test node --harmony `which gulp`"
   },
   "repository": {
     "type": "git",

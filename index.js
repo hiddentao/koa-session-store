@@ -101,7 +101,7 @@ Session.prototype.load = function*() {
     return this._json;
   } else {
     debug('load store for %d', this._sid);
-    this._prevSessionDataJSON = yield this._store.load(this._sid);
+    this._prevSessionDataJSON = (yield this._store.load(this._sid)) || '{}';
     return JSON.parse(this._prevSessionDataJSON);
   }
 };
