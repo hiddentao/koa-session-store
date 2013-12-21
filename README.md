@@ -68,16 +68,16 @@ exposes the following API:
 
  * **load(sid)** - load session data for given session id
    * `sid` - _{String}_ session identifier.
-   * returns a Promise, Thunk or generator which resolves to a JSON string of the session object data.
+   * returns a Promise, Thunk or generator which returns a JSON string of the session object data.
 
  * **save(sid, data)** - save session data for given session id
    * `sid` - _{String}_ session identifier.
    * `data` - _{String} session data converted to JSON string.
-   * returns a Promise, Thunk or generator which resolves once data is saved.
+   * returns a Promise, Thunk or generator which returns once data is saved.
 
  * **remove(sid)** - remove session data for given session id
    * `sid` - _{String}_ session identifier.
-   * returns a Promise, Thunk or generator which resolves once removal is complete.
+   * returns a Promise, Thunk or generator which returns once removal is complete.
 
 
 
