@@ -1,6 +1,7 @@
 # koa-session-store
 
-Session middleware for [Koa](https://github.com/koajs/koa) with a pluggable storage layer (for Mongo, Redis, etc.).
+Session middleware for [Koa](https://github.com/koajs/koa) with a pluggable storage layer (for use with Mongo, Redis, etc.).
+Based on [koa-session](https://github.com/koajs/session).
 
 ## Installation
 
@@ -8,44 +9,42 @@ Session middleware for [Koa](https://github.com/koajs/koa) with a pluggable stor
 
 ## Usage
 
-By default it works in the same way as [koa-session](https://github.com/koajs/session):
+  var session = require('koa-session-store');
+  var koa = require('koa');
 
-   var session = require('koa-session-store');
-   var koa = require('koa');
+  var app = koa();
 
-   var app = koa();
-
-   app.keys = ['some secret key'];  // needed for cookie-signing
+  app.keys = ['some secret key'];  // needed for cookie-signing
 
   // cookie will be named "koa:sess" and session data will be stored in the cookie itself
-   app.use(session());
+  app.use(session());
 
-   app.use(function(next){
-     return function *(){
-       var n = this.session.views || 0;
-       this.session.views = ++n;
-       this.body = n + ' views';
-     }
-   })
+  app.use(function(next){
+    return function *(){
+      var n = this.session.views || 0;
+      this.session.views = ++n;
+      this.body = n + ' views';
+    }
+  })
 
-   app.listen(3000);
-   console.log('listening on port 3000');
+  app.listen(3000);
+  console.log('listening on port 3000');
 
 The following configuration options are available:
 
-   app.use(session({
-      name: 'mysite'    // cookie name
-      store: <object instance>   // the session data storage layer - see below
-      cookie: {
-        // cookie configuration options - see below
-      }
-   }));
+  app.use(session({
+    name: 'mysite'    // cookie name
+    store: <object instance>   // the session data storage layer - see below
+    cookie: {
+      // cookie configuration options - see below
+    }
+  }));
 
 The default cookie configuration options are set to:
 
-    signed: true      // cookie is signed using KeyGrip
-    httpOnly: true    // cookie is not accessible via client-side JS
-    overwrite: true   // overwrite existing cookie datawhen setting cookie
+  signed: true      // cookie is signed using KeyGrip
+  httpOnly: true    // cookie is not accessible via client-side JS
+  overwrite: true   // overwrite existing cookie datawhen setting cookie
 
 For a full list of options see [the cookies module](https://github.com/jed/cookies#cookiesset-name--value---options--).
 
