@@ -1,7 +1,7 @@
 {
   "name": "koa-session-store",
   "version": "0.1.0",
-  "description": "Session middleware for Koa with a plubbable storage layer",
+  "description": "Session middleware for Koa with a pluggable storage layer (for Mongo, etc.)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,7 @@
     "mongo"
   ],
   "author": "Ramesh Nair <ram@hiddentao.com>",
-  "license": "MIT",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/hiddentao/koa-session-store/issues"
   },

@@ -7,17 +7,17 @@ var uid = require('uid2');
  * Create session middleware.
  *
  * @param opts {Object} session options.
- * @param opts.key {String} session cookie name. Defaults to "koa:sess".
+ * @param opts.name {String} session cookie name. Defaults to "koa:sess".
  * @param opts.store {Object|String} either an instance of session storage implementation or the string 'cookie'. Default is 'cookie'.
  * @parma opts.cookie {Object} configuration options for the cookie handler (see https://github.com/jed/cookies#cookiesset-name--value---options--).
  *
  * @return {Function} middleware.
  */
-exports.create = function(opts){
+module.exports = function(opts){
   opts = opts || {};
 
   // key
-  opts.key = opts.key || 'koa:sess';
+  opts.name = opts.name || 'koa:sess';
 
   // cookie
   if (!opts.cookie) {
@@ -33,7 +33,7 @@ exports.create = function(opts){
   return function *(next){
     var session = new Session(this, opts);
 
-    this.session = yield session.initStore();
+    this.session = yield session.getData();
 
     yield next;
 
@@ -50,7 +50,7 @@ exports.create = function(opts){
 
 
 /**
- * Session model.
+ * Session.
  *
  * @param ctx {Context}
  * @param opts {Object} options.
@@ -62,59 +62,52 @@ function Session(ctx, opts) {
 
   opts = opts || {};
 
-  this._key = opts.key;
+  this._name = opts.name;
 
   this._cookieOpts = opts.cookie;
 
   // load session cookie data
-  var jsonString = this._ctx.cookies.get(this._key, this._cookieOpts),
-    json = JSON.parse(jsonString || '{}');
+  this._jsonString = this._ctx.cookies.get(this._name, this._cookieOpts);
+  this._json = JSON.parse(this._jsonString || '{}');
+
+  debug('load cookie %j', this._jsonString);
 
   // new session?
-  if (!json._sid) {
+  if (!this._json._sid) {
     this._isNew = true;
     this._sid = uid(15);
   } else {
-    this._sid = json._sid;
+    this._sid = this._json._sid;
   }
 
-  // get session store
-  this._store = opts.store;
-  if (!this._store || 'cookie' === this._store) {
-    // use the cookie itself as the store
-    this._useCookieStore = true;
-    this._store = _.extend({}, json);
-    this._prevSessionData = jsonString;
-  }
+  this._store = opts.store || 'cookie';
 }
 
 
 /**
- * Initialize the session store.
- * @return {Object} the session store.
+ * Get the session data object.
+ *
+ * This will load the data from the session store.
+ *
+ * @return {Object} the session data object.
+ *
+ * @api private
  */
-Session.prototype.initStore = function*() {
-  if (!this._useCookieStore) {
-    yield this._store.load(this._sid);
+Session.prototype.getData = function*() {
+  if ('cookie' === this._store) {
+    // use the cookie itself as the store
+    this._useCookieStore = true;
+    this._sessionData = _.extend({}, this._json);
+    this._prevSessionDataJSON = this._jsonString;
+    debug('use cookie as store');
+  } else {
+    debug('load store for %d', this._sid);
+    this._prevSessionDataJSON = yield this._store.load(this._sid);
+    this._sessionData = JSON.parse(this._prevSessionDataJSON);
   }
 
-  return this._opts.store;
+  return this._sessionData;
 };
-
-
-
-/**
- * JSON representation of the session.
- *
- * @return {Object}
- * @api public
- */
-
-Session.prototype.inspect =
-  Session.prototype.toJSON = function() {
-    return JSON.stringify(this._store);
-  };
-
 
 
 
@@ -127,23 +120,23 @@ Session.prototype.inspect =
  */
 
 Session.prototype.save = function*() {
-  var json, changed;
+  this._sessionData._sid = this._sid; // in case app overwrote it by accident when using cookie store
 
-  // using cookie store?
-  if (this._useCookieStore) {
-    this._store._sid = this._sid; // in case app overwrote it by accident
-    json = JSON.stringify(this._store);
-    changed = (this._prevSessionData !== json);
-  } else {
-    json = {
-      _sid: this._sid
-    };
-    changed = yield this._store.save();
-  }
+  var newJSON = JSON.stringify(this._sessionData),
+    changed = (this._prevSessionDataJSON !== newJSON);
 
-  if (changed || this._isNew) {
-    debug('save %s', json);
-    this._ctx.cookies.set(this._key, json, this._cookieOpts);
+  if (changed) {
+    // if non-cookie store then save the data
+    if (!this._useCookieStore) {
+      debug('save data to store for %d %j', this._sid, newJSON);
+      yield this._store.save(this._sid, newJSON);
+    }
+
+    // if using cookie store or if this is a new session
+    if (this._useCookieStore || this._isNew) {
+      debug('save cookie %s', newJSON);
+      this._ctx.cookies.set(this._name, newJSON, this._cookieOpts);
+    }
   }
 };
 
@@ -155,8 +148,10 @@ Session.prototype.save = function*() {
 
 Session.prototype.remove = function*(){
   debug('remove');
-  yield this._store.remove();
+  if (!this._useCookieStore) {
+    yield this._store.remove(this._sid);
+  }
   this._cookieOpts.expires = new Date(0);
-  this._ctx.cookies.set(this._key, '', this._cookieOpts);
+  this._ctx.cookies.set(this._name, '', this._cookieOpts);
 };
 
