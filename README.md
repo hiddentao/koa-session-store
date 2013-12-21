@@ -39,7 +39,7 @@ The following configuration options are available:
 ```js
 app.use(session({
   name: 'mysite'    // cookie name
-  store: <object instance>   // the session data storage layer - see below
+  store: <object instance> or "cookie"   // session storage layer - see below
   cookie: {
     // cookie configuration options - see below
   }
@@ -58,11 +58,11 @@ For a full list of options see [the cookies module](https://github.com/jed/cooki
 
 ## Session storage layer
 
-The `store` configuration option specifies where the session data is stored. If omitted or set to 'cookie' then
+The `store` configuration option specifies where the session data is stored. If omitted or set to `"cookie"` then
 session data will be stored in the cookie itself.
 
 If you wish to store session data elsewhere (e.g. in Mongo, Redis, etc.) then you must set this to an object which
-provides the following API:
+exposes the following API:
 
  * **load(sid)** - load session data for given session id
    * `sid` - _{String}_ session identifier.
