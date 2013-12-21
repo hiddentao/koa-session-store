@@ -1,7 +1,7 @@
 {
   "name": "koa-session-store",
   "version": "0.1.0",
-  "description": "Session middleware for Koa with a pluggable storage layer (for Mongo, etc.)",
+  "description": "Session middleware for Koa with a pluggable storage layer",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test node --harmony `which gulp`"
