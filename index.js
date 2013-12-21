@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var debug = require('debug')('koa-session-store');
 var uid = require('uid2');
 
@@ -20,11 +19,10 @@ module.exports = function(opts){
   opts.name = opts.name || 'koa:sess';
 
   // cookie
-  opts.cookie = _.extend({
-    httpOnly: true,
-    signed: true,
-    overwrite: true
-  }, opts.cookie);
+  opts.cookie = opts.cookie || {};
+  if (!opts.cookie.hasOwnProperty('httpOnly')) opts.cookie.httpOnly = true;
+  if (!opts.cookie.hasOwnProperty('signed')) opts.cookie.signed = true;
+  if (!opts.cookie.hasOwnProperty('overwrite')) opts.cookie.overwrite = true;
 
   debug('session options %j', opts);
 
