@@ -1,0 +1,25 @@
+{
+  "name": "koa-session-store",
+  "version": "0.1.0",
+  "description": "Session middleware for Koa with a plubbable storage layer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hiddentao/koa-session-store"
+  },
+  "keywords": [
+    "koa",
+    "session",
+    "cookies",
+    "mongo"
+  ],
+  "author": "Ramesh Nair <ram@hiddentao.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hiddentao/koa-session-store/issues"
+  },
+  "homepage": "https://github.com/hiddentao/koa-session-store"
+}
