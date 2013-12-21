@@ -4,7 +4,7 @@
   "description": "Session middleware for Koa with a pluggable storage layer (for Mongo, etc.)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --harmony `which gulp`"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,16 @@
     "mongo"
   ],
   "author": "Ramesh Nair <ram@hiddentao.com>",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hiddentao/koa-session-store/issues"
   },
-  "homepage": "https://github.com/hiddentao/koa-session-store"
+  "homepage": "https://github.com/hiddentao/koa-session-store",
+  "devDependencies": {
+    "gulp": "~3.2.0",
+    "gulp-mocha": "~0.1.0",
+    "koa": "~0.1.1",
+    "supertest": "~0.8.2",
+    "should": "~2.1.1"
+  }
 }
