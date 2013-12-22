@@ -36,6 +36,12 @@ app.listen(3000);
 console.log('listening on port 3000');
 ```
 
+To delete an existing session:
+
+```js
+this.session = null;
+```
+
 The following configuration options are available:
 
 ```js
