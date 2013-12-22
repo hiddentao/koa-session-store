@@ -86,6 +86,10 @@ exposes the following API:
    * returns a Promise, Thunk or generator which returns once removal is complete.
 
 
+The following storage layers are currently available:
+
+  * MongoDB - [koa-session-mongo](https://npmjs.org/package/koa-session-mongo)
+
 
 ## License
 
