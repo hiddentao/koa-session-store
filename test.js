@@ -11,7 +11,11 @@ describe('Koa Session Store', function(){
   var cookie, httpServer;
   
   afterEach(function(done) {
-    if (httpServer) httpServer.close(done);
+    if (httpServer) {
+      httpServer.close(done);
+    } else {
+      done();
+    }
   });
 
   describe('cookie options', function() {
