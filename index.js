@@ -160,7 +160,6 @@ Session.prototype.remove = function*(){
   if (!this._useCookieStore) {
     yield this._store.remove(this._sid);
   }
-  this._cookieOpts.expires = new Date(0);
   this._ctx.cookies.set(this._name, '', this._cookieOpts);
 };
 
