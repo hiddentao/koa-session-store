@@ -1,6 +1,6 @@
 {
   "name": "koa-session-store",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "Session middleware for Koa with a pluggable storage layer",
   "main": "index.js",
   "scripts": {
@@ -23,14 +23,14 @@
   },
   "homepage": "https://github.com/hiddentao/koa-session-store",
   "devDependencies": {
-    "gulp": "~3.2.0",
-    "gulp-mocha": "~0.1.0",
-    "koa": "~0.1.1",
-    "supertest": "~0.8.2",
-    "should": "~2.1.1"
+    "gulp": "~3.9.1",
+    "gulp-mocha": "^2.2.0",
+    "koa": "~1.2.0",
+    "should": "~9.0.0",
+    "supertest": "~1.2.0"
   },
   "dependencies": {
     "uid2": "0.0.3",
-    "debug": "~0.7.4"
+    "debug": "~2.2.0"
   }
 }
