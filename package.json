@@ -4,7 +4,7 @@
   "description": "Session middleware for Koa with a pluggable storage layer",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test node --harmony `which gulp`"
+    "test": "NODE_ENV=test gulp"
   },
   "repository": {
     "type": "git",
@@ -32,5 +32,9 @@
   "dependencies": {
     "uid2": "0.0.3",
     "debug": "~2.2.0"
-  }
+  },
+  "engines": {
+    "node": ">=4.4.0"
+  },
+  "engine-strict": true
 }
